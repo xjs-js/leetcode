@@ -1,5 +1,7 @@
 class Solution {
 public:
+   /* best of the three functions */
+   /* 16ms  */
    int mySqrt(int x) {
         int64_t k = 0;
         for (int64_t b = x; b >= 1; b /= 2) {
@@ -9,7 +11,7 @@ public:
         return k;
     }
 
-    /* runs faster than the above  */
+    /* just use 32 bits data type  */
     int mySqrt(int x) {
         int k = 0;
         for (int b = x; b >= 1; b /= 2) {
