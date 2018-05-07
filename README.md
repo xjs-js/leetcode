@@ -7,16 +7,18 @@
 昨天突然发现前几名的代码都添加了几行一摸一样的代码，和书上写的差不多，优化输入输出的，我靠。顿时豁然开朗，为什么我的代码运行得那么慢，原来是这个原因.  
 
 ```cpp
+using namespace std;
+
 static vector<string> _ = [](){
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(0);
+    ios::sync_with_stdio(false);
+    cin.tie(0);
     return vector<string>{};
 }();
 
 /* or this method */
 static int _ = [](){
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(0);
+    ios::sync_with_stdio(false);
+    cin.tie(0);
     return 0;
 }();
 
