@@ -6,13 +6,13 @@ using namespace std;
 class Solution {
 public:
   vector<double> sampleStats(vector<int>& count) {
-  	int min_of_sample = 256;
-  	int max_of_sample = -1;
-  	int max_count = -1;
-  	int mode = -1;
+    int min_of_sample = 256;
+    int max_of_sample = -1;
+    int max_count = -1;
+    int mode = -1;
 
-  	double sum_of_sample = 0;
-  	int num_of_sample = 0;
+    double sum_of_sample = 0;
+    int num_of_sample = 0;
 
   	int num_count = 0;
   	for (size_t i = 0; i < count.size(); ++i)
@@ -74,6 +74,7 @@ public:
   	  }
   	}
 
+
     vector<double> result;
     result.push_back(min_of_sample);
     result.push_back(max_of_sample); 
@@ -99,4 +100,4 @@ int main(int argc, char* argv[])
     cout << d.at(i) << " " << endl;
   }
   return 0;
-}   
+}
