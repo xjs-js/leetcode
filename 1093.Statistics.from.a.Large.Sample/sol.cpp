@@ -21,25 +21,23 @@ public:
   	  if (num_count != 0)
   	  {
   	    // min_of_sample has not been signed
-			  if (min_of_sample == 256)
-			  {
-			  		min_of_sample = i;
-			  }
+	    if (min_of_sample == 256)
+		{
+			min_of_sample = i;
+		}
 
-			  max_of_sample = i;
+		max_of_sample = i;
 
-			  // sum
-				sum_of_sample += i * count[i];
-		    num_of_sample += count[i];
+		// sum
+		sum_of_sample += i * count[i];
+		num_of_sample += count[i];
   	  	
   	  	// mode
   	  	if (count[i] > max_count)
   	  	{
   	  	  max_count = count[i];
   	  	  mode = i;
-  	  	}
-
-  	    	
+  	  	}	
   	  }
   	}
 
