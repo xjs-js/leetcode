@@ -75,7 +75,7 @@ public:
   	    }
   	  }
   	}
-
+ 
     vector<double> result;
     result.push_back(min_of_sample);
     result.push_back(max_of_sample); 
