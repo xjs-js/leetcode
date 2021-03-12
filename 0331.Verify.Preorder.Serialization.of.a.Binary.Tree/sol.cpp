@@ -1,23 +1,23 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <stack>
+#include <queue>
 
 using namespace std;
 
 class Solution {
 public:
     bool isValidSerialization(string preorder) {
-        std::vector<string> tokens;
+        std::queue<string> tokens;
 
         // split preorder string        
-        std::string delim = ",";
+        string delim = ",";
         size_t start = 0;
         size_t end = preorder.find(delim);
         int numOfNull = 0;      // num of "#"
         while (end != std::string::npos) {
-            std::string token = preorder.substr(start, end-start);
-            tokens.push_back(token);
+            string token = preorder.substr(start, end-start);
+            tokens.push(token);
             if (token == "#")
                 ++ numOfNull;
 
@@ -25,89 +25,61 @@ public:
             end = preorder.find(delim, start);
         }
 
-        std::string lastToken = preorder.substr(start,  end-start);
-        tokens.push_back(lastToken);
+        string lastToken = preorder.substr(start,  end-start);
+        tokens.push(lastToken);
         if (lastToken == "#")
             ++numOfNull;
 
         int numOfNode = tokens.size() - numOfNull;
-
+        // 第一次check： 非空节点的数量 + 1 = 空节点的数量
         if (numOfNode + 1 != numOfNull)
             return false;
+        
+        bool isFind = true;
+        while (isFind) {
+            isFind = filter(tokens);
+        }
 
-        stack<string> tree;
+        return tokens.size() == 1 && tokens.front() == "#";
+    }
 
-        int i = 0;
-        while (i != tokens.size()) {
-            std::string curToken = tokens.at(i);
-
-            if (curToken == "#") {
-                if (tree.empty()) {
-                    tree.push("#");
-                    ++i;
-                    continue;
-                }
-
-                std::string firstTokenInTree = tree.top();
-                if (firstTokenInTree == "#") {
-                    tree.pop();
-
-                    if (tree.empty())
-                        return false;
-
-                    std::string secondTokenInTree = tree.top();
-                    if (secondTokenInTree == "#") {
-                        return false;
+    bool filter(queue<string>& tokens)
+    {
+        queue<string> after;
+        bool isFind = false;
+        while (!tokens.empty()) {
+            string front = tokens.front();
+            tokens.pop();
+            if (front == "#")
+                after.push(front);
+            else {  // front is a number 
+                if (tokens.size() >= 2) {
+                    string next_first = tokens.front();
+                    if (next_first == "#") {
+                        tokens.pop();
+                        string next_second = tokens.front();
+                        if (next_second == "#") {
+                            tokens.pop();
+                            after.push("#");
+                            isFind = true;
+                        } else {
+                            after.push(front);
+                            after.push("#");
+                        }
                     }
                     else {
-                        tree.pop();
-                        insert(tree);
+                        after.push(front);
                     }
-
                 }
-                else {  // firstTokenInTree is a num
-                    tree.push(curToken);
+                else {
+                    after.push(front);
                 }
             }
-            else { // curToken is a num
-                tree.push(curToken);
-            }
-
-            ++i;
         }
-
-
-
-        return tree.size() == 1 && tree.top() == "#";
+        tokens = after;
+        return isFind;
     }
 
-    bool insert(std::stack<std::string>& tree) {
-        if (tree.empty()) {
-            tree.push("#");
-            return true;
-        }
-
-        std::string firstElement = tree.top();
-        if (firstElement == "#") {
-            if (tree.size() >= 2) {
-                tree.pop();
-                std::string secondElement = tree.top();
-                if (secondElement != "#") {
-                    tree.pop();
-                    return insert(tree);
-                }
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            tree.push("#");
-            return true;
-        }
-
-        return false;
-    }
 };
 
 
@@ -115,9 +87,9 @@ int main(int argc, char* argv[])
 {
     Solution sol;
 
-//    std::cout << sol.isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#") << std::endl;
-//    std::cout << sol.isValidSerialization("1,#")  << std::endl;
-    std::cout << sol.isValidSerialization("#")  << std::endl;
-//    std::cout << sol.isValidSerialization("9,2,#,#,#,#,3") << std::endl;
+    // std::cout << sol.isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#") << std::endl;
+    // std::cout << sol.isValidSerialization("1,#")  << std::endl;
+    // std::cout << sol.isValidSerialization("#")  << std::endl;
+    std::cout << sol.isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#") << std::endl;
     return 0;
 }
