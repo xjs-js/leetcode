@@ -8,7 +8,7 @@ using namespace std;
 class Solution {
 public:
     bool isValidSerialization(string preorder) {
-        std::vector<string> tokens;
+        std::queue<string> tokens;
 
         // split preorder string        
         string delim = ",";
@@ -17,7 +17,7 @@ public:
         int numOfNull = 0;      // num of "#"
         while (end != std::string::npos) {
             string token = preorder.substr(start, end-start);
-            tokens.push_back(token);
+            tokens.push(token);
             if (token == "#")
                 ++ numOfNull;
 
@@ -26,7 +26,7 @@ public:
         }
 
         string lastToken = preorder.substr(start,  end-start);
-        tokens.push_back(lastToken);
+        tokens.push(lastToken);
         if (lastToken == "#")
             ++numOfNull;
 
@@ -40,43 +40,47 @@ public:
             isFind = filter(tokens);
         }
 
-        return tokens.size() == 1 && tokens.at(0) == "#";
+        return tokens.size() == 1 && tokens.front() == "#";
     }
 
-    bool filter(vector<string>& tokens)
+    bool filter(queue<string>& tokens)
     {
+        queue<string> after;
         bool isFind = false;
-
-        int i = 0;
-        while (i != tokens.size()) {
-            string curToken = tokens.at(i);
-            if (curToken == "#") {
-                ++i;
-                continue;
-            } else {  // curToken is a number
-                if (i + 1 < tokens.size() && i + 2 < tokens.size()) {
-                    string next_first = tokens.at(i + 1);
-                    string next_second = tokens.at(i + 2);
-                    if (next_first == "#" && next_second == "#") {
-                        isFind = true;
-                        tokens.erase(tokens.begin() + i, tokens.begin() + i + 2);
-                        ++i;
+        while (!tokens.empty()) {
+            string front = tokens.front();
+            tokens.pop();
+            if (front == "#")
+                after.push(front);
+            else {  // front is a number 
+                if (tokens.size() >= 2) {
+                    string next_first = tokens.front();
+                    if (next_first == "#") {
+                        tokens.pop();
+                        string next_second = tokens.front();
+                        if (next_second == "#") {
+                            tokens.pop();
+                            after.push("#");
+                            isFind = true;
+                        } else {
+                            after.push(front);
+                            after.push("#");
+                        }
                     }
                     else {
-                        ++i;
+                        after.push(front);
                     }
                 }
                 else {
-                    ++i;
+                    after.push(front);
                 }
             }
         }
-
+        tokens = after;
         return isFind;
     }
 
 };
-
 
 int main(int argc, char* argv[])
 {
