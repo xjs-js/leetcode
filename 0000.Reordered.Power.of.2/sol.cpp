@@ -9,14 +9,8 @@ using namespace std;
 class Solution {
 public:
     bool reorderedPowerOf2(int N) {
-        string str_N = to_string(N);
-        size_t len = str_N.size();
-        vector<char> origin(len);
-        vector<char> after(len);
-
-        for (int i = 0; i < len; i++) {
-            origin[i] = str_N[i];
-        }
+        string origin = to_string(N);
+        size_t len = origin.size();
         std::sort(origin.begin(), origin.end());
 
         int i = 0;
@@ -27,13 +21,9 @@ public:
             if (len_after > len) {
                 return false;
             } else if (len_after == len) {
-                for (int j = 0; j < len_after; ++j) {
-                    after[j] = num_str[j];
-                }
+                std::sort(num_str.begin(), num_str.end());
 
-                std::sort(after.begin(), after.end());
-
-                if (after == origin) {
+                if (num_str == origin) {
                     return true;
                 }
             }
