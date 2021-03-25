@@ -25,9 +25,10 @@ public:
             }
             if (headNext != head->next) {
                 head = headNext;
-                headVal = head->val;
+                
                 if (head) {
                     headNext = head->next;
+                    headVal = head->val;
                 } else {
                     break;
                 }
