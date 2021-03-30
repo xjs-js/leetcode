@@ -1,3 +1,7 @@
+/**
+ * @date: 2021-03-30
+ */
+
 class Solution {
 private:
     bool binarySearch(const vector<int>& curRow, int target) {
@@ -21,6 +25,10 @@ private:
         return false;
     }
 public:
+    /**
+     * 遍历矩阵的每一行，根据第一个元素和最后一个元素来确定target是否在这一行中
+     * 对找到的这一行进行二分搜索
+     */
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         int row = matrix.size();
         int col = matrix[0].size();
