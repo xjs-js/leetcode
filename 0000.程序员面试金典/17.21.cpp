@@ -35,7 +35,8 @@ public:
                 result += (low - height[i]);
             }
         }
-
+        delete[] left_max;
+        delete[] right_max;
         return result;
     }
 };
