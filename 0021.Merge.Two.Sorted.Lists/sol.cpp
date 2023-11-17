@@ -60,3 +60,58 @@ public:
 
     
 };
+
+// 2023-11-17 Fri. 
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* p1 = list1;
+        ListNode* p2 = list2;
+
+        ListNode* relt = nullptr;
+        ListNode* p3 = nullptr;
+        while (p1 != nullptr && p2 != nullptr) {
+            if (p1 && p2) {
+                // get smaller
+                ListNode* smaller = nullptr;
+                if (p1->val < p2->val) {
+                    smaller = p1;
+                    p1 = p1->next;
+                } else {
+                    smaller = p2;
+                    p2 = p2->next;
+                }
+
+                if (relt == nullptr) {
+                    relt = smaller;
+                    p3 = relt;
+                } else {
+                    p3->next = smaller;
+                    p3 = p3->next;
+                }
+            }
+        }
+
+        while (p1 != nullptr) {
+            if (relt == nullptr) {
+                p3 = relt = p1;
+            } else {
+                p3->next = p1;
+                p3 = p3->next;
+            }
+            p1 = p1->next;
+        }
+
+        while (p2 != nullptr) {
+            if (relt == nullptr) {
+                p3 = relt = p2;
+            } else {
+                p3->next = p2;
+                p3 = p3->next;
+            }
+            p2 = p2->next;
+        }
+
+        return relt;
+    }
+};
