@@ -1,3 +1,26 @@
+// 2023/11/21 20:08
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        for (char c : s) {
+            if (c == '(' || c == '[' || c == '{') st.push(c);
+            else {
+                if (c == ')')
+                    if (!st.empty() && st.top() == '(') st.pop();
+                    else                                return false;
+                if (c == '}')
+                    if (!st.empty() && st.top() == '{') st.pop();
+                    else                                return false;
+                if (c == ']')
+                    if (!st.empty() && st.top() == '[') st.pop();
+                    else                                return false;
+            }
+        }
+        return st.empty();
+    }
+};
+
 #include <bits/stdc++.h>
 #include <stack>
 using namespace std;
