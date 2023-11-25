@@ -1,3 +1,67 @@
+// 2023.11.21 21:10
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        unordered_map<int, int> count;
+        for (int i = 0; i < nums.size(); ++i) {
+            count[nums[i]]++;
+        }
+
+        vector<int> newNum;
+        for (auto it = count.begin(); it != count.end(); ++it) {
+            if (it->second == 1) {
+                newNum.push_back(it->first);
+            }
+            if (it->second == 2) {
+                newNum.push_back(it->first);
+                newNum.push_back(it->first);
+            }
+            if (it->second >= 3) {
+                if (it->first == 0) {
+                    newNum.push_back(it->first);
+                    newNum.push_back(it->first);
+                    newNum.push_back(it->first);
+                } else {
+                    newNum.push_back(it->first);
+                    newNum.push_back(it->first);
+                }
+            }
+        }
+
+        unordered_map<int, vector<int>> dic;
+        sort(newNum.begin(), newNum.end());
+        int N = newNum.size();
+        for (int i = 0; i < N; ++i) {
+            int num = newNum[i];
+            dic[num].push_back(i);
+        }
+
+        vector<vector<int>> relt;
+        set<tuple<int, int, int>> isExist;
+        for (int i = 0; i < N; ++i) {
+            for (int j = i + 1; j < N; ++j) {
+                int target = 0 - newNum[i] - newNum[j];
+
+                if (dic.count(target)) {
+                    vector<int>& candidate = dic[target];
+                    auto it = upper_bound(candidate.begin(), candidate.end(), j);
+                    while (it != candidate.end()) {
+                        int k = *it;
+                        if (!isExist.count(make_tuple(newNum[i], newNum[j], target))) {
+                            isExist.insert(make_tuple(newNum[i], newNum[j], target));
+                            relt.push_back({newNum[i], newNum[j], target});
+                        }
+                        ++it;
+                    }
+                }
+            }
+        }
+
+        return relt;
+    }
+};
+
+
 /**
  * @url: https://leetcode.com/problems/3sum/
  * @date: 2021-03-23
