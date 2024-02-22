@@ -30,3 +30,21 @@ public:
         return root;
     }
 };
+
+
+// @date: 2024-02-22.周四.20:56
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if (root != nullptr) {
+            TreeNode* reversedLeft = invertTree(root->left);
+            TreeNode* reversedRight = invertTree(root->right);
+
+            root->left = reversedRight;
+            root->right = reversedLeft;
+
+            return root;
+        }
+        return nullptr;
+    }
+};
