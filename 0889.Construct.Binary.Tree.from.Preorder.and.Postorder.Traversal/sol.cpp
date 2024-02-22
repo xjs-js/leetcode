@@ -7,6 +7,53 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+// @date: 2024-02-22
+class Solution {
+public:
+    int getIndex(vector<int>& arr, int val) {
+        for (int i = 0; i < arr.size(); ++i) {
+            if (arr[i] == val)
+                return i;
+        }
+        return -1;
+    }
+
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+        if (preorder.empty() || postorder.empty() || preorder.size() != postorder.size()) {
+            return nullptr;
+        }
+
+        if (TreeNode* root = new TreeNode(preorder.front())) {
+            if (preorder.size() > 1) {
+                int leftRootInPre = 1;
+                int leftRootInPost = getIndex(postorder, preorder[leftRootInPre]);
+
+                int rightRootInPost = postorder.size() - 1 - 1;
+
+                auto preorderLeftItbeg = preorder.begin() + leftRootInPre;
+                auto preorderLeftItend = preorderLeftItbeg + leftRootInPost + 1;
+                
+                vector<int> preorderLeft(preorderLeftItbeg, preorderLeftItend);
+                vector<int> preorderRight(preorderLeftItend, preorder.end());
+
+                auto postorderLeftItbeg = postorder.begin();
+                auto postorderLeftItend = postorder.begin() + leftRootInPost + 1;
+                
+                vector<int> postorderLeft(postorderLeftItbeg, postorderLeftItend);
+                vector<int> postorderRight(postorderLeftItend, postorder.end() - 1);
+                
+                root->left = constructFromPrePost(preorderLeft, postorderLeft);
+                root->right = constructFromPrePost(preorderRight, postorderRight);
+            }
+            return root;
+        } else {
+            return nullptr;
+        }
+    }
+};
+
+
+// @date: 2021年5月17日
 class Solution {
 public:
     TreeNode* constructFromPrePost(vector<int>& pre, vector<int>& post) {
