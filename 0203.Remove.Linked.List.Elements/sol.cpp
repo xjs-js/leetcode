@@ -30,3 +30,33 @@ public:
         }
     }
 };
+
+// 2024-03-08
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode* dumbHead = new ListNode(-1, nullptr);
+
+        if (dumbHead == nullptr)
+            return nullptr;
+
+        ListNode* p = head;
+        ListNode* newP = dumbHead;
+        while (p != nullptr) {
+            if (p->val != val) {
+                newP->next = p;
+                newP = newP->next;
+                p = p->next;
+            } else {
+                ListNode* q = p;
+                p = p->next;
+                delete q;
+            }
+        }
+        newP->next = nullptr;
+        
+        ListNode* relt = dumbHead->next;
+        delete dumbHead;
+        return relt;
+    }
+};

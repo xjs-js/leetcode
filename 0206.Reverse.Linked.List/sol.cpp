@@ -46,3 +46,41 @@ public:
         
     }
 };
+
+// 2024-03-08
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == nullptr) return nullptr;
+
+        ListNode* front = head;
+        ListNode* p = front->next;
+        front->next = nullptr;
+        while (p != nullptr) {
+            ListNode* next = p->next;
+            p->next = front;
+            front = p;
+            p = next;
+        }
+        return front;
+    }
+};
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == nullptr)
+            return nullptr;
+
+
+        if (ListNode* front = reverseList(head->next)) {
+            if (ListNode* frontTail = head->next) {
+                frontTail->next = head;
+                head->next = nullptr;
+                return front;
+            }
+        }
+
+        return head;
+    }
+};
